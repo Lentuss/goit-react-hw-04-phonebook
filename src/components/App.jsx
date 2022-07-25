@@ -1,67 +1,48 @@
-import React, { Component } from 'react';
 import PhoneBook from './PhoneBook';
 import { nanoid } from 'nanoid';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+const App = () => {
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(localStorage.getItem('contacts')) || []
+  );
+  const [filter, setFilter] = useState('');
 
-  dataHandler = data => {
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
+  const dataHandler = (name, number) => {
     const newId = nanoid();
-    const names = this.state.contacts.map(contact =>
-      contact.name.toLowerCase()
-    );
+    const names = contacts.map(contact => contact.name.toLowerCase());
 
-    if (names.includes(data.name.toLowerCase())) {
-      alert(`Please, enter unique name. ${data.name} is already exist`);
+    if (names.includes(name.toLowerCase())) {
+      alert(`Please, enter unique name. ${name} is already exist`);
       return;
     } else {
-      this.setState(prev => {
-        return {
-          contacts: [...prev.contacts, { id: newId, ...data }],
-        };
-      });
+      setContacts([...contacts, { id: newId, name, number }]);
     }
   };
 
-  handleFilter = e => {
-    this.setState({ filter: e.currentTarget.value.toLowerCase() });
+  const handleFilter = e => {
+    setFilter(e.currentTarget.value.toLowerCase());
   };
 
-  handleDelete = id => {
-    this.setState(prev => ({
-      contacts: prev.contacts.filter(contact => contact.id !== id),
-    }));
+  const handleDelete = id => {
+    setContacts(contacts.filter(contact => contact.id !== id));
   };
 
-  componentDidMount() {
-    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
-
-  render() {
-    const { contacts, filter } = this.state;
-    return (
-      <PhoneBook
-        contacts={contacts}
-        title={'Phonebook'}
-        filterValue={filter}
-        onSubmit={this.dataHandler}
-        onFilter={this.handleFilter}
-        onDelete={this.handleDelete}
-      />
-    );
-  }
-}
+  return (
+    <PhoneBook
+      contacts={contacts}
+      title={'Phonebook'}
+      filterValue={filter}
+      onSubmit={dataHandler}
+      onFilter={handleFilter}
+      onDelete={handleDelete}
+    />
+  );
+};
 
 export default App;
