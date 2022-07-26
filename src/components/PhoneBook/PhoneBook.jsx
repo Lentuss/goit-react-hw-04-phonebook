@@ -8,6 +8,7 @@ const PhoneBook = ({
   onSubmit,
   contacts,
   filterValue,
+  filteredContacts,
   onFilter,
   onDelete,
 }) => {
@@ -18,8 +19,8 @@ const PhoneBook = ({
 
       <ContactsList
         title={'Contacts'}
-        contacts={contacts}
         filterValue={filterValue}
+        filteredContacts={filteredContacts}
         onFilter={onFilter}
         onDelete={onDelete}
       />
@@ -30,14 +31,14 @@ const PhoneBook = ({
 export default PhoneBook;
 
 PhoneBook.propTypes = {
-  contacts: PropTypes.arrayOf(
+  filteredContacts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
       number: PropTypes.string,
     })
   ),
-  filter: PropTypes.string,
+  filterValue: PropTypes.string,
   title: PropTypes.string,
   onSubmit: PropTypes.func,
   onFilter: PropTypes.func,

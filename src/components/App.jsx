@@ -26,7 +26,13 @@ const App = () => {
   };
 
   const handleFilter = e => {
-    setFilter(e.currentTarget.value.toLowerCase());
+    setFilter(e.currentTarget.value.toLowerCase().trim());
+  };
+
+  const getFilteresContacts = () => {
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter)
+    );
   };
 
   const handleDelete = id => {
@@ -38,6 +44,7 @@ const App = () => {
       contacts={contacts}
       title={'Phonebook'}
       filterValue={filter}
+      filteredContacts={getFilteresContacts()}
       onSubmit={dataHandler}
       onFilter={handleFilter}
       onDelete={handleDelete}

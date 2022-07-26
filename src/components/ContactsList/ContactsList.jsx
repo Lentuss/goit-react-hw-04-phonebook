@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import Filter from '../Filter';
 
 import {
@@ -12,10 +11,13 @@ import {
   Marker,
 } from './ContactsList.styled';
 
-const ContactsList = ({ contacts, title, filterValue, onFilter, onDelete }) => {
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filterValue)
-  );
+const ContactsList = ({
+  filteredContacts,
+  title,
+  filterValue,
+  onFilter,
+  onDelete,
+}) => {
   return (
     <Contacts>
       <ListTitle>{title}</ListTitle>
@@ -43,17 +45,3 @@ const ContactsList = ({ contacts, title, filterValue, onFilter, onDelete }) => {
 };
 
 export default ContactsList;
-
-ContactsList.propTypes = {
-  title: PropTypes.string.isRequired,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      number: PropTypes.string,
-    })
-  ),
-  filter: PropTypes.string,
-  onFilter: PropTypes.func,
-  onDelete: PropTypes.func,
-};
