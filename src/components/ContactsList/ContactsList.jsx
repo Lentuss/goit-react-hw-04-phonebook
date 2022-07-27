@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Filter from '../Filter';
 
 import {
@@ -42,6 +43,20 @@ const ContactsList = ({
       </List>
     </Contacts>
   );
+};
+
+ContactsList.propTypes = {
+  filteredContacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
+  filterValue: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  onFilter: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default ContactsList;
